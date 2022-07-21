@@ -3,39 +3,39 @@ module github.com/openshift/osde2e
 go 1.16
 
 require (
-	cloud.google.com/go v0.83.0
+	cloud.google.com/go/kms v1.4.0
 	github.com/Masterminds/semver v1.5.0
-	github.com/PagerDuty/go-pagerduty v1.4.1
-	github.com/PuerkitoBio/goquery v1.5.1
+	github.com/PagerDuty/go-pagerduty v1.5.1
+	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/adamliesko/retry v0.0.0-20200123222335-86c8baac277d
-	github.com/antlr/antlr4 v0.0.0-20200209180723-1177c0b58d07
-	github.com/aws/aws-sdk-go v1.39.3
+	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220209173558-ad29539cd2e9
+	github.com/aws/aws-sdk-go v1.44.58
 	github.com/bmizerany/perks v0.0.0-20141205001514-d9a9656a3a4b // indirect
-	github.com/cenkalti/backoff/v4 v4.1.0 // indirect
+	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/code-ready/crc v1.10.0
 	github.com/dgryski/go-gk v0.0.0-20200319235926-a69029f61654 // indirect
 	github.com/dgryski/go-lttb v0.0.0-20180810165845-318fcdf10a77 // indirect
-	github.com/emicklei/go-restful v2.10.0+incompatible
-	github.com/fatih/color v1.10.0
-	github.com/fsnotify/fsnotify v1.4.9
+	github.com/emicklei/go-restful v2.16.0+incompatible
+	github.com/fatih/color v1.13.0
+	github.com/fsnotify/fsnotify v1.5.4
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/golang-migrate/migrate/v4 v4.14.2-0.20210511063805-2e7358e012a6
 	github.com/google/go-github/v31 v31.0.0
-	github.com/google/uuid v1.2.0
+	github.com/google/uuid v1.3.0
 	github.com/gotestyourself/gotestyourself v2.2.0+incompatible // indirect
-	github.com/hashicorp/go-multierror v1.1.0
+	github.com/hashicorp/go-multierror v1.1.1
 	github.com/influxdata/tdigest v0.0.1 // indirect
-	github.com/jackc/pgtype v1.8.0
+	github.com/jackc/pgtype v1.11.0
 	github.com/jinzhu/inflection v1.0.0
 	github.com/joshdk/go-junit v0.0.0-20201221202203-061ee62ada40
-	github.com/kyleconroy/sqlc v1.8.0
+	github.com/kyleconroy/sqlc v1.14.0
 	github.com/kylelemons/godebug v1.1.0
-	github.com/lib/pq v1.10.2
+	github.com/lib/pq v1.10.6
 	github.com/markbates/pkger v0.17.1
-	github.com/mitchellh/mapstructure v1.1.2
-	github.com/onsi/ginkgo v1.16.4
-	github.com/onsi/gomega v1.16.0
-	github.com/openshift-online/ocm-sdk-go v0.1.215
+	github.com/mitchellh/mapstructure v1.5.0
+	github.com/onsi/ginkgo/v2 v2.1.4
+	github.com/onsi/gomega v1.20.0
+	github.com/openshift-online/ocm-sdk-go v0.1.276
 	github.com/openshift/api v3.9.1-0.20190924102528-32369d4db2ad+incompatible
 	github.com/openshift/client-go v0.0.0-20200827190008-3062137373b5
 	github.com/openshift/cloud-credential-operator v0.0.0-20210525141023-02cc6303cd10
@@ -44,37 +44,40 @@ require (
 	github.com/openshift/custom-domains-operator v0.0.0-20210423153044-6e7655fbdecf
 	github.com/openshift/machine-api-operator v0.2.1-0.20200529045911-d19e8d007f7c
 	github.com/openshift/managed-upgrade-operator v0.0.0-20210728104325-95212635e5e1
-	github.com/openshift/rosa v1.1.3-0.20210915184258-dd4fe43a0f71
+	github.com/openshift/origin v0.0.0-20160503220234-8f127d736703
+	github.com/openshift/rosa v1.2.4
 	github.com/openshift/route-monitor-operator v0.0.0-20210309123726-229da76cc133
 	github.com/openshift/splunk-forwarder-operator v0.0.0-20201112162206-2f454770b6c0
 	github.com/operator-framework/api v0.3.6
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200521062108-408ca95d458f
 	github.com/ory/dockertest v3.3.5+incompatible
-	github.com/pganalyze/pg_query_go/v2 v2.0.2
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.44.1
+	github.com/pganalyze/pg_query_go/v2 v2.1.2
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.56.2
 	github.com/prometheus-operator/prometheus-operator/pkg/client v0.45.0
-	github.com/prometheus/alertmanager v0.21.0
-	github.com/prometheus/client_golang v1.9.0
-	github.com/prometheus/common v0.15.0
-	github.com/redhat-cop/must-gather-operator v1.0.0
-	github.com/slack-go/slack v0.6.5
-	github.com/spf13/afero v1.2.2
-	github.com/spf13/cobra v1.1.3
+	github.com/prometheus/alertmanager v0.24.0
+	github.com/prometheus/client_golang v1.12.2
+	github.com/prometheus/common v0.37.0
+	github.com/redhat-cop/must-gather-operator v1.1.2
+	github.com/slack-go/slack v0.11.0
+	github.com/spf13/afero v1.9.2
+	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.5
-	github.com/spf13/viper v1.7.1
+	github.com/spf13/viper v1.12.0
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/tsenart/go-tsz v0.0.0-20180814235614-0bd30b3df1c3 // indirect
 	github.com/tsenart/vegeta v12.7.0+incompatible
 	github.com/vmware-tanzu/velero v1.5.0-beta.1.0.20200831161009-1dcaa1bf7512
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
-	golang.org/x/tools v0.1.2
-	google.golang.org/api v0.47.0
-	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	k8s.io/api v0.20.2
-	k8s.io/apimachinery v0.20.2
+	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e
+	golang.org/x/oauth2 v0.0.0-20220622183110-fd043fe589d2
+	golang.org/x/tools v0.1.11
+	google.golang.org/api v0.88.0
+	google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f
+	gopkg.in/yaml.v3 v3.0.1
+	gotest.tools/v3 v3.3.0
+	k8s.io/api v0.23.0
+	k8s.io/apimachinery v0.23.0
 	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/utils v0.0.0-20200729134348-d5654de09c73
+	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b
 )
 
 replace (
