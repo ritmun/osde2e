@@ -52,8 +52,8 @@ require (
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200521062108-408ca95d458f
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/pganalyze/pg_query_go/v2 v2.1.2
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.56.2
-	github.com/prometheus-operator/prometheus-operator/pkg/client v0.45.0
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.59.0
+	github.com/prometheus-operator/prometheus-operator/pkg/client v0.59.0
 	github.com/prometheus/alertmanager v0.24.0
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.37.0
@@ -67,17 +67,17 @@ require (
 	github.com/tsenart/go-tsz v0.0.0-20180814235614-0bd30b3df1c3 // indirect
 	github.com/tsenart/vegeta v12.7.0+incompatible
 	github.com/vmware-tanzu/velero v1.5.0-beta.1.0.20200831161009-1dcaa1bf7512
-	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e
-	golang.org/x/oauth2 v0.0.0-20220622183110-fd043fe589d2
+	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b
+	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094
 	golang.org/x/tools v0.1.11
 	google.golang.org/api v0.88.0
 	google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f
 	gopkg.in/yaml.v3 v3.0.1
 	gotest.tools/v3 v3.3.0
-	k8s.io/api v0.23.0
-	k8s.io/apimachinery v0.23.0
+	k8s.io/api v0.25.0
+	k8s.io/apimachinery v0.25.0
 	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b
+	k8s.io/utils v0.0.0-20220823124924-e9cbc92d1a73
 )
 
 replace (
