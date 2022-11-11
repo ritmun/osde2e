@@ -8,7 +8,7 @@ require (
 	github.com/PagerDuty/go-pagerduty v1.5.1
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/adamliesko/retry v0.0.0-20200123222335-86c8baac277d
-	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220209173558-ad29539cd2e9
+	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220626175859-9abda183db8e
 	github.com/aws/aws-sdk-go v1.44.58
 	github.com/bmizerany/perks v0.0.0-20141205001514-d9a9656a3a4b // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
@@ -25,12 +25,12 @@ require (
 	github.com/gotestyourself/gotestyourself v2.2.0+incompatible // indirect
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/influxdata/tdigest v0.0.1 // indirect
-	github.com/jackc/pgtype v1.11.0
+	github.com/jackc/pgtype v1.12.0
 	github.com/jinzhu/inflection v1.0.0
 	github.com/joshdk/go-junit v0.0.0-20201221202203-061ee62ada40
-	github.com/kyleconroy/sqlc v1.14.0
+	github.com/kyleconroy/sqlc v1.16.0
 	github.com/kylelemons/godebug v1.1.0
-	github.com/lib/pq v1.10.6
+	github.com/lib/pq v1.10.7
 	github.com/markbates/pkger v0.17.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/onsi/ginkgo/v2 v2.1.4
@@ -51,7 +51,7 @@ require (
 	github.com/operator-framework/api v0.3.6
 	github.com/operator-framework/operator-lifecycle-manager v0.0.0-20200521062108-408ca95d458f
 	github.com/ory/dockertest v3.3.5+incompatible
-	github.com/pganalyze/pg_query_go/v2 v2.1.2
+	github.com/pganalyze/pg_query_go/v2 v2.2.0
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.56.2
 	github.com/prometheus-operator/prometheus-operator/pkg/client v0.45.0
 	github.com/prometheus/alertmanager v0.24.0
@@ -60,7 +60,7 @@ require (
 	github.com/redhat-cop/must-gather-operator v1.1.2
 	github.com/slack-go/slack v0.11.0
 	github.com/spf13/afero v1.9.2
-	github.com/spf13/cobra v1.5.0
+	github.com/spf13/cobra v1.6.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.12.0
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
