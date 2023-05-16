@@ -1470,8 +1470,8 @@ github.com/vladimirvivien/gexe v0.2.0 h1:nbdAQ6vbZ+ZNsolCgSVb9Fno60kzSuvtzVh6Ytq
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=
 github.com/vmihailenco/msgpack/v4 v4.3.12/go.mod h1:gborTTJjAo/GWTqqRjrLCn9pgNN+NXzzngzBKDPIqw4=
 github.com/vmihailenco/tagparser v0.1.1/go.mod h1:OeAg3pn3UbLjkWt+rN9oFYB6u/cQgqMEUPoW2WPyhdI=
-github.com/vmware-tanzu/velero v1.7.2 h1:MGVezxXP0yju+zWyofcQJ08aQYmU6BsEh45l+rTACxE=
-github.com/vmware-tanzu/velero v1.7.2/go.mod h1:jFVzwrdnmECUqO/uMn7QSTZP5t0BCMxDQ2ZKWfvQbI8=
+github.com/vmware-tanzu/velero v1.11.0 h1:rxuLXoeJA1Qv6HMcNqubx5Nmz/+KtqNT7w9I0UGvmqs=
+github.com/vmware-tanzu/velero v1.11.0/go.mod h1:j5+xxWWmYfLeJ7IjYCLuC+P1ZeSVKRyjYep3SFknRRw=
 github.com/willf/bitset v1.1.11-0.20200630133818-d5bec3311243/go.mod h1:RjeCKbqT1RxIR/KWY6phxZiaY1IyutSBfGjNPySAYV4=
 github.com/willf/bitset v1.1.11/go.mod h1:83CECat5yLh5zVOf4P1ErAgKA5UDvKtgyUABdr3+MjI=
 github.com/xanzy/go-gitlab v0.15.0/go.mod h1:8zdQa/ri1dfn8eS3Ir1SyfvOKlw7WBJ8DVThkpGiXrs=
