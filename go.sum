@@ -419,6 +419,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/daviddengcn/go-colortext v0.0.0-20160507010035-511bcaf42ccd/go.mod h1:dv4zxwHi5C/8AeI+4gX4dCWOIvNi7I6JCSX0HvlKPgE=
+github.com/dchest/validator v0.0.0-20191217151620-8e45250f2371 h1:BuLreR1acrosGsW+njS+RxyPgL06rYTkasZA2NAogEo=
+github.com/dchest/validator v0.0.0-20191217151620-8e45250f2371/go.mod h1:ZfpgrLR1i3mQWz5fIRfkyMIh9zLOy3MwTc7hUBVPlww=
 github.com/denisenkom/go-mssqldb v0.10.0/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=
 github.com/denverdino/aliyungo v0.0.0-20190125010748-a747050bb1ba/go.mod h1:dV8lFg6daOBZbT6/BDGIz6Y3WFGn8juu6G+CQ6LHtl0=
 github.com/dgrijalva/jwt-go v0.0.0-20170104182250-a601269ab70c/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
@@ -1206,8 +1208,8 @@ github.com/opencontainers/selinux v1.6.0/go.mod h1:VVGKuOLlE7v4PJyT6h7mNWvq1rzqi
 github.com/opencontainers/selinux v1.8.0/go.mod h1:RScLhm78qiWa2gbVCcGkC7tCGdgk3ogry1nUQF8Evvo=
 github.com/opencontainers/selinux v1.8.2/go.mod h1:MUIHuUEvKB1wtJjQdOyYRgOnLD2xAPP8dBsCoU0KuF8=
 github.com/opencontainers/selinux v1.10.0/go.mod h1:2i0OySw99QjzBBQByd1Gr9gSjvuho1lHsJxIJ3gGbJI=
-github.com/openshift-online/ocm-sdk-go v0.1.339 h1:/vQcIWX9N+zmpA79b8bzleUiW9oTeeP3/gkxSBUtlgE=
-github.com/openshift-online/ocm-sdk-go v0.1.339/go.mod h1:KYOw8kAKAHyPrJcQoVR82CneQ4ofC02Na4cXXaTq4Nw=
+github.com/openshift-online/ocm-sdk-go v0.1.352 h1:ncsLnohVAokhtra/rTn9bZ4ouzPS08BeAUeQdyYOl04=
+github.com/openshift-online/ocm-sdk-go v0.1.352/go.mod h1:KYOw8kAKAHyPrJcQoVR82CneQ4ofC02Na4cXXaTq4Nw=
 github.com/openshift/api v0.0.0-20221013123534-96eec44e1979 h1:NkfbwN34Q/UtfKUFEO9pxmdY06A/jBk80YBua+mxwUc=
 github.com/openshift/api v0.0.0-20221013123534-96eec44e1979/go.mod h1:LEnw1IVscIxyDnltE3Wi7bQb/QzIM8BfPNKoGA1Qlxw=
 github.com/openshift/build-machinery-go v0.0.0-20211213093930-7e33a7eb4ce3/go.mod h1:b1BuldmJlbA/xYtdZvKi+7j5YGB44qJUJDZ9zwiNCfE=
@@ -1223,8 +1225,8 @@ github.com/openshift/managed-upgrade-operator v0.0.0-20230128000023-b30cca4aa2af
 github.com/openshift/managed-upgrade-operator v0.0.0-20230128000023-b30cca4aa2af/go.mod h1:uB6QrG3Y6Y6Q2HjlOdTu15Bkwkln+XLr2HOwgLgznJA=
 github.com/openshift/must-gather-operator v0.1.2-0.20221011152618-7805956e1ded h1:ndSIrjtHq6DaEfQqtukaJ7PrX9f0X2V9WjnuiqBDGyw=
 github.com/openshift/must-gather-operator v0.1.2-0.20221011152618-7805956e1ded/go.mod h1:LHntdQf5jrwxpmyVMbwXUK491COBJ7buHvyi4YLlHho=
-github.com/openshift/rosa v1.2.17 h1:M2YtvYJfOTwvwkMsbQGQOZZaTQNy0mUHxAbE8AkLr24=
-github.com/openshift/rosa v1.2.17/go.mod h1:SdJEQg19qTNbgX1k4LcPWSllHW9QCTSIzalfO9FARh0=
+github.com/openshift/rosa v1.2.24 h1:vv0yYnWHx6CCPEAau/0rS54P2ksaf+uWXb1TQPWxiYE=
+github.com/openshift/rosa v1.2.24/go.mod h1:MVXB27O3PF8WoOic23I03mmq6/9kVxpFx6FKyLMCyrQ=
 github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2 h1:s97F2fQ5r+XGVfWDy5wgH611iIvIDusQcHtv5jJ36uw=
 github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2/go.mod h1:I/8znbaxMGRub27brm57UnkR48QZEWO26j2HRscy5bQ=
 github.com/openshift/splunk-forwarder-operator v0.0.0-20230216205147-c051d56cd298 h1:LOaO/QdBKrrNWiviOH6vq45V3GHq4sezPc9HQlMZOKo=
@@ -1331,6 +1333,8 @@ github.com/redhat-cop/operator-utils v1.1.4/go.mod h1:gKtKExcEUSaso5yuePnzP/zXI7
 github.com/remyoudompheng/bigfft v0.0.0-20190728182440-6a916e37a237/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 h1:OdAsTTz6OkFY5QxjkYwrChwuRruF69c169dPK26NUlk=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
+github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
+github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
 github.com/rogpeppe/fastuuid v0.0.0-20150106093220-6724a57986af/go.mod h1:XWv6SoW27p1b0cqNHllgS5HIMJraePCO15w5zCzIWYg=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
 github.com/rogpeppe/go-internal v1.1.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
