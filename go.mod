@@ -43,7 +43,7 @@ require (
 	github.com/operator-framework/operator-registry v1.29.0
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/pganalyze/pg_query_go/v2 v2.2.0
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.64.0
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.67.1
 	github.com/prometheus-operator/prometheus-operator/pkg/client v0.64.0
 	github.com/prometheus/alertmanager v0.25.0
 	github.com/prometheus/client_golang v1.16.0
@@ -70,7 +70,7 @@ require (
 	k8s.io/client-go v12.0.0+incompatible
 	k8s.io/klog/v2 v2.100.1
 	k8s.io/kubectl v0.27.4
-	k8s.io/utils v0.0.0-20230313181309-38a27ef9d749
+	k8s.io/utils v0.0.0-20230505201702-9f6742963106
 	sigs.k8s.io/controller-runtime v0.15.1
 	sigs.k8s.io/e2e-framework v0.2.0
 )
