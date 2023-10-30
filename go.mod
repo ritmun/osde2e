@@ -38,7 +38,7 @@ require (
 	github.com/openshift/osde2e-common v0.0.0-20230821135613-0810d032d8da
 	github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2
 	github.com/openshift/splunk-forwarder-operator v0.0.0-20230525060151-2dc403aa8ff9
-	github.com/operator-framework/api v0.17.7
+	github.com/operator-framework/api v0.18.0
 	github.com/operator-framework/operator-lifecycle-manager v0.22.0
 	github.com/operator-framework/operator-registry v1.29.0
 	github.com/ory/dockertest v3.3.5+incompatible
@@ -56,7 +56,7 @@ require (
 	github.com/spf13/viper v1.16.0
 	github.com/tsenart/vegeta v12.7.0+incompatible
 	github.com/vmware-tanzu/velero v1.10.2
-	golang.org/x/net v0.14.0
+	golang.org/x/net v0.17.0
 	golang.org/x/oauth2 v0.11.0
 	golang.org/x/sync v0.3.0
 	golang.org/x/tools v0.12.0
@@ -65,8 +65,8 @@ require (
 	google.golang.org/grpc v1.57.0
 	gopkg.in/yaml.v3 v3.0.1
 	gotest.tools/v3 v3.5.0
-	k8s.io/api v0.27.4
-	k8s.io/apimachinery v0.27.4
+	k8s.io/api v0.27.7
+	k8s.io/apimachinery v0.27.7
 	k8s.io/client-go v12.0.0+incompatible
 	k8s.io/klog/v2 v2.100.1
 	k8s.io/kubectl v0.27.4
@@ -183,12 +183,12 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/crypto v0.12.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/sys v0.11.0 // indirect
-	golang.org/x/term v0.11.0 // indirect
-	golang.org/x/text v0.12.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/term v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230803162519-f966b187b2e5 // indirect
@@ -198,7 +198,7 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	k8s.io/apiextensions-apiserver v0.27.2 // indirect
+	k8s.io/apiextensions-apiserver v0.27.7 // indirect
 	k8s.io/kube-openapi v0.0.0-20230501164219-8b0f38b5fd1f // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
