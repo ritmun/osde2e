@@ -698,8 +698,8 @@ github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2 h
 github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2/go.mod h1:I/8znbaxMGRub27brm57UnkR48QZEWO26j2HRscy5bQ=
 github.com/openshift/splunk-forwarder-operator v0.0.0-20230525060151-2dc403aa8ff9 h1:u7XXBdFB+uoA+YcvDjqmfhAJsZTGGGQOBqIXSBT4EUQ=
 github.com/openshift/splunk-forwarder-operator v0.0.0-20230525060151-2dc403aa8ff9/go.mod h1:94+9nZe76gQg7HUSppOzlOWvuADI9TCmgRKx0zwwaDo=
-github.com/operator-framework/api v0.17.7 h1:NLn+Ieg+HaPrw75KbX4efllN21ofFArQzS3q8TDbQY0=
-github.com/operator-framework/api v0.17.7/go.mod h1:lnurXgadLnoZ7pufKMHkErr2BVOIZSpHtvEkHBcKvdk=
+github.com/operator-framework/api v0.20.0 h1:A2YCRhr+6s0k3pRJacnwjh1Ue8BqjIGuQ2jvPg9XCB4=
+github.com/operator-framework/api v0.20.0/go.mod h1:rXPOhrQ6mMeXqCmpDgt1ALoar9ZlHL+Iy5qut9R99a4=
 github.com/operator-framework/operator-lifecycle-manager v0.22.0 h1:7DEWOq24HQ0l5xPOXMhn17XaJACgwoipz+JfQ7QCXZw=
 github.com/operator-framework/operator-lifecycle-manager v0.22.0/go.mod h1:4zssIIl23ohxS1nXRU9xTkBmwt+qleuHMO02BaWOHLA=
 github.com/ory/dockertest v3.3.5+incompatible h1:iLLK6SQwIhcbrG783Dghaaa3WPzGc+4Emza6EbVUUGA=

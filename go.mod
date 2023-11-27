@@ -38,7 +38,7 @@ require (
 	github.com/openshift/osde2e-common v0.0.0-20231115164123-239388d813a8
 	github.com/openshift/route-monitor-operator v0.0.0-20221118160357-3df1ed1fa1d2
 	github.com/openshift/splunk-forwarder-operator v0.0.0-20230525060151-2dc403aa8ff9
-	github.com/operator-framework/api v0.17.7
+	github.com/operator-framework/api v0.20.0
 	github.com/operator-framework/operator-lifecycle-manager v0.22.0
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/pganalyze/pg_query_go/v2 v2.2.0
