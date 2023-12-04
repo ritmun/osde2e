@@ -42,8 +42,8 @@ require (
 	github.com/operator-framework/operator-lifecycle-manager v0.22.0
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/pganalyze/pg_query_go/v2 v2.2.0
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.64.0
-	github.com/prometheus-operator/prometheus-operator/pkg/client v0.64.0
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.70.0
+	github.com/prometheus-operator/prometheus-operator/pkg/client v0.70.0
 	github.com/prometheus/alertmanager v0.26.0
 	github.com/prometheus/client_golang v1.17.0
 	github.com/prometheus/common v0.45.0
@@ -55,20 +55,20 @@ require (
 	github.com/spf13/viper v1.17.0
 	github.com/tsenart/vegeta v12.7.0+incompatible
 	github.com/vmware-tanzu/velero v1.10.2
-	golang.org/x/net v0.18.0
-	golang.org/x/oauth2 v0.14.0
+	golang.org/x/net v0.19.0
+	golang.org/x/oauth2 v0.15.0
 	golang.org/x/sync v0.5.0
 	golang.org/x/tools v0.15.0
 	google.golang.org/api v0.150.0
 	google.golang.org/genproto v0.0.0-20231016165738-49dd2c1f3d0b
 	gopkg.in/yaml.v3 v3.0.1
 	gotest.tools/v3 v3.5.1
-	k8s.io/api v0.28.3
-	k8s.io/apimachinery v0.28.3
+	k8s.io/api v0.28.4
+	k8s.io/apimachinery v0.28.4
 	k8s.io/client-go v12.0.0+incompatible
 	k8s.io/klog/v2 v2.110.1
 	k8s.io/kubectl v0.28.3
-	k8s.io/utils v0.0.0-20230505201702-9f6742963106
+	k8s.io/utils v0.0.0-20231127182322-b307cd553661
 	sigs.k8s.io/controller-runtime v0.16.3
 	sigs.k8s.io/e2e-framework v0.3.0
 )
@@ -100,14 +100,14 @@ require (
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
-	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
+	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
-	github.com/go-openapi/jsonpointer v0.19.6 // indirect
+	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
-	github.com/go-openapi/swag v0.22.3 // indirect
+	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
@@ -180,14 +180,14 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.25.0 // indirect
-	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/crypto v0.16.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/term v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/time v0.3.0 // indirect
-	google.golang.org/appengine v1.6.7 // indirect
+	golang.org/x/time v0.5.0 // indirect
+	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231016165738-49dd2c1f3d0b // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
 	google.golang.org/grpc v1.59.0 // indirect
@@ -196,11 +196,11 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	k8s.io/apiextensions-apiserver v0.28.3 // indirect
-	k8s.io/kube-openapi v0.0.0-20230717233707-2695361300d9 // indirect
+	k8s.io/apiextensions-apiserver v0.28.4 // indirect
+	k8s.io/kube-openapi v0.0.0-20231129212854-f0671cc7e66a // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
-	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
-	sigs.k8s.io/yaml v1.3.0 // indirect
+	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
+	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
 replace (
