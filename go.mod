@@ -54,7 +54,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.17.0
 	github.com/tsenart/vegeta v12.7.0+incompatible
-	github.com/vmware-tanzu/velero v1.10.2
+	github.com/vmware-tanzu/velero v1.12.3
 	golang.org/x/net v0.18.0
 	golang.org/x/oauth2 v0.14.0
 	golang.org/x/sync v0.5.0
@@ -102,7 +102,6 @@ require (
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
-	github.com/fatih/color v1.15.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
