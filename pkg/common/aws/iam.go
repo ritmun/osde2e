@@ -1,12 +1,13 @@
 package aws
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/iam"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/iam"
 )
 
 var (
@@ -21,7 +22,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupOpenIDConnectProviders(olderthan time
 	}
 
 	input := &iam.ListOpenIDConnectProvidersInput{}
-	result, err := CcsAwsSession.iam.ListOpenIDConnectProviders(input)
+	result, err := CcsAwsSession.iam.ListOpenIDConnectProviders(context.Background(),input)
 	if err != nil {
 		return err
 	}
@@ -32,7 +33,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupOpenIDConnectProviders(olderthan time
 		}
 
 		// Get the provider
-		result, err := CcsAwsSession.iam.GetOpenIDConnectProvider(input)
+		result, err := CcsAwsSession.iam.GetOpenIDConnectProvider(context.Background(),input)
 		if err != nil {
 			return err
 		}
@@ -45,7 +46,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupOpenIDConnectProviders(olderthan time
 				input := &iam.DeleteOpenIDConnectProviderInput{
 					OpenIDConnectProviderArn: provider.Arn,
 				}
-				_, err := CcsAwsSession.iam.DeleteOpenIDConnectProvider(input)
+				_, err := CcsAwsSession.iam.DeleteOpenIDConnectProvider(context.Background(),input)
 				if err != nil {
 					return err
 				}
@@ -64,9 +65,9 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 	}
 
 	input := &iam.ListRolesInput{
-		MaxItems: aws.Int64(1000),
+		MaxItems: aws.Int32(1000),
 	}
-	result, err := CcsAwsSession.iam.ListRoles(input)
+	result, err := CcsAwsSession.iam.ListRoles(context.Background(),input)
 	if err != nil {
 		return err
 	}
@@ -79,7 +80,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 			instanceProfilesForRoleInputinput := &iam.ListInstanceProfilesForRoleInput{
 				RoleName: role.RoleName,
 			}
-			instanceProfiles, errInstanceProfiles := CcsAwsSession.iam.ListInstanceProfilesForRole(instanceProfilesForRoleInputinput)
+			instanceProfiles, errInstanceProfiles := CcsAwsSession.iam.ListInstanceProfilesForRole(context.Background(),instanceProfilesForRoleInputinput)
 
 			if errInstanceProfiles != nil {
 				return fmt.Errorf("error getting instance profiles for role: %s", errInstanceProfiles)
@@ -93,7 +94,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 						InstanceProfileName: instanceProfile.InstanceProfileName,
 						RoleName:            role.RoleName,
 					}
-					_, errRemoveRoleFromInstanceProfile := CcsAwsSession.iam.RemoveRoleFromInstanceProfile(removeRoleFromInstanceProfileInput)
+					_, errRemoveRoleFromInstanceProfile := CcsAwsSession.iam.RemoveRoleFromInstanceProfile(context.Background(),removeRoleFromInstanceProfileInput)
 					if errRemoveRoleFromInstanceProfile != nil {
 						return fmt.Errorf("error removing role from instance profile: %s", errRemoveRoleFromInstanceProfile)
 					}
@@ -106,21 +107,21 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 			inlineRolePoliciesInput := &iam.ListRolePoliciesInput{
 				RoleName: role.RoleName,
 			}
-			inlinePolicies, errInlineRolePoliciesInput := CcsAwsSession.iam.ListRolePolicies(inlineRolePoliciesInput)
+			inlinePolicies, errInlineRolePoliciesInput := CcsAwsSession.iam.ListRolePolicies(context.Background(),inlineRolePoliciesInput)
 
 			if errInlineRolePoliciesInput != nil {
 				return errInlineRolePoliciesInput
 			}
-
-			for _, policy := range inlinePolicies.PolicyNames {
-				fmt.Println("Inline policy will be deleted: ", *policy)
+			var policy string 
+			for _, policy = range inlinePolicies.PolicyNames {
+				fmt.Println("Inline policy will be deleted: ", policy)
 
 				if !dryrun {
 					input := &iam.DeleteRolePolicyInput{
-						PolicyName: policy,
+						PolicyName: &policy,
 						RoleName:   role.RoleName,
 					}
-					_, errInlinePolicies := CcsAwsSession.iam.DeleteRolePolicy(input)
+					_, errInlinePolicies := CcsAwsSession.iam.DeleteRolePolicy(context.Background(),input)
 					if errInlinePolicies != nil {
 						return fmt.Errorf("error deleting inline policy: %s", errInlinePolicies)
 					}
@@ -132,7 +133,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 			attachedRolePoliciesInput := &iam.ListAttachedRolePoliciesInput{
 				RoleName: role.RoleName,
 			}
-			attachedPolicies, errAttachedRolePoliciesInput := CcsAwsSession.iam.ListAttachedRolePolicies(attachedRolePoliciesInput)
+			attachedPolicies, errAttachedRolePoliciesInput := CcsAwsSession.iam.ListAttachedRolePolicies(context.Background(),attachedRolePoliciesInput)
 			if errAttachedRolePoliciesInput != nil {
 				return errAttachedRolePoliciesInput
 			}
@@ -145,7 +146,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 						PolicyArn: policy.PolicyArn,
 						RoleName:  role.RoleName,
 					}
-					_, errAttachedPolicies := CcsAwsSession.iam.DetachRolePolicy(detachInput)
+					_, errAttachedPolicies := CcsAwsSession.iam.DetachRolePolicy(context.Background(),detachInput)
 					if errAttachedPolicies != nil {
 						return errAttachedPolicies
 					}
@@ -159,7 +160,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(olderthan time.Duration, dryrun
 					RoleName: role.RoleName,
 				}
 				// Delete the role
-				_, err = CcsAwsSession.iam.DeleteRole(roleInput)
+				_, err = CcsAwsSession.iam.DeleteRole(context.Background(),roleInput)
 				if err != nil {
 					return err
 				}
@@ -177,9 +178,9 @@ func (CcsAwsSession *ccsAwsSession) CleanupPolicies(olderthan time.Duration, dry
 		return err
 	}
 	input := &iam.ListPoliciesInput{
-		MaxItems: aws.Int64(1000),
+		MaxItems: aws.Int32(1000),
 	}
-	result, err := CcsAwsSession.iam.ListPolicies(input)
+	result, err := CcsAwsSession.iam.ListPolicies(context.Background(),input)
 	if err != nil {
 		return err
 	}
@@ -193,7 +194,7 @@ func (CcsAwsSession *ccsAwsSession) CleanupPolicies(olderthan time.Duration, dry
 					PolicyArn: policy.Arn,
 				}
 				// Delete the policy
-				_, err := CcsAwsSession.iam.DeletePolicy(input)
+				_, err := CcsAwsSession.iam.DeletePolicy(context.Background(),input)
 				if err != nil {
 					return err
 				}

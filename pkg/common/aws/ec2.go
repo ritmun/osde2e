@@ -1,10 +1,12 @@
 package aws
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 // Hypershift Test Helper Function:
@@ -15,11 +17,11 @@ func (CcsAwsSession *ccsAwsSession) CheckIfEC2ExistBasedOnNodeName(nodeName stri
 		return false, err
 	}
 
-	ec2Instances, err := CcsAwsSession.ec2.DescribeInstances(&ec2.DescribeInstancesInput{
-		Filters: []*ec2.Filter{
+	ec2Instances, err := CcsAwsSession.ec2.DescribeInstances(context.Background(),&ec2.DescribeInstancesInput{
+		Filters: []types.Filter{
 			{
 				Name:   aws.String("private-dns-name"),
-				Values: []*string{aws.String(nodeName)},
+				Values: []string{*aws.String(nodeName)},
 			},
 		},
 	})
@@ -43,17 +45,16 @@ func (CcsAwsSession *ccsAwsSession) ReleaseElasticIPs(dryrun bool) error {
 		return err
 	}
 
-	results, err := CcsAwsSession.ec2.DescribeAddresses(&ec2.DescribeAddressesInput{})
+	results, err := CcsAwsSession.ec2.DescribeAddresses(context.Background(), &ec2.DescribeAddressesInput{})
 	if err != nil {
 		return err
 	}
 	fmt.Printf("Addresses found: %d\n", len(results.Addresses))
 	deleted := 0
-	name := ""
 
 	for _, address := range results.Addresses {
 		if address.AssociationId == nil {
-			_, err := CcsAwsSession.ec2.ReleaseAddress(&ec2.ReleaseAddressInput{
+			_, err := CcsAwsSession.ec2.ReleaseAddress(context.Background(), &ec2.ReleaseAddressInput{
 				AllocationId: address.AllocationId,
 				DryRun:       &dryrun,
 			})
@@ -64,12 +65,7 @@ func (CcsAwsSession *ccsAwsSession) ReleaseElasticIPs(dryrun bool) error {
 				fmt.Printf("Address %s not deleted: %s\n", *address.PublicIp, err.Error())
 			}
 		} else {
-			for _, v := range address.Tags {
-				if *v.Key == "Name" {
-					name = *v.Value
-				}
-			}
-			fmt.Printf("Skipping address %s still allocated to cluster [Tag: %s].\n", *address.PublicIp, name)
+			fmt.Printf("Skipping address %s still allocated to network interface id %s \n", *address.PublicIp, *address.NetworkInterfaceId)
 		}
 	}
 	fmt.Printf("Finished elastic IP cleanup. Deleted %d addresses.", deleted)

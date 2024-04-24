@@ -61,11 +61,11 @@ func (h *H) WriteResults(results map[string][]byte) {
 // UploadResultsToS3 dumps runner results into the s3 bucket in given aws session.
 func (h *H) UploadResultsToS3(results map[string][]byte, key string) error {
 	for filename, data := range results {
-		session, err := aws.CcsAwsSession.GetSession()
+		 err := aws.CcsAwsSession.GetAWSSessions()
 		if err != nil {
 			return fmt.Errorf("error getting aws session: %v", err)
 		}
-		aws.WriteToS3Session(session, aws.CreateS3URL(viper.GetString(config.Tests.LogBucket), key, filepath.Base(filename)), data)
+		aws.WriteToS3Session( aws.CreateS3URL(viper.GetString(config.Tests.LogBucket), key, filepath.Base(filename)), data)
 	}
 	return nil
 }
