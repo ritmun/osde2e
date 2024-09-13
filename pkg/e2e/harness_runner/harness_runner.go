@@ -85,7 +85,7 @@ var _ = ginkgo.Describe("Test harness", ginkgo.Ordered, ginkgo.ContinueOnFailure
 			Expect(err).NotTo(HaveOccurred(), "Could not read results")
 			ginkgo.By("Writing results")
 			h.WriteResults(results)
-			if config.Tests.LogBucket != "" {
+			if config.Tests.LogBucket != "" && config.CloudProvider.CloudProviderID == "aws" {
 				err = h.UploadResultsToS3(results, harnessImage+time.Now().Format(time.DateOnly+"_"+time.TimeOnly))
 				if err != nil {
 					ginkgo.GinkgoLogr.Error(err, "reporting error")
