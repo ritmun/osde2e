@@ -1,8 +1,7 @@
 module github.com/openshift/osde2e
 
 go 1.22
-
-toolchain go1.22.3
+toolchain go1.22.7
 
 require (
 	cloud.google.com/go/kms v1.19.0
@@ -41,7 +40,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.19.0
 	github.com/tsenart/vegeta v12.7.0+incompatible
-	github.com/vmware-tanzu/velero v1.10.2
+	github.com/vmware-tanzu/velero v1.14.1
 	golang.org/x/net v0.28.0
 	golang.org/x/oauth2 v0.22.0
 	golang.org/x/sync v0.8.0
@@ -56,7 +55,7 @@ require (
 	k8s.io/klog/v2 v2.120.1
 	k8s.io/kubectl v0.28.4
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b
-	sigs.k8s.io/controller-runtime v0.16.3
+	sigs.k8s.io/controller-runtime v0.17.2
 	sigs.k8s.io/e2e-framework v0.3.0
 )
 
@@ -84,7 +83,7 @@ require (
 	github.com/dgryski/go-lttb v0.0.0-20210302151804-4a713d71336c // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
-	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
+	github.com/evanphx/json-patch/v5 v5.8.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
@@ -138,7 +137,7 @@ require (
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
-	github.com/sirupsen/logrus v1.9.2 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
@@ -171,5 +170,5 @@ require (
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
-	sigs.k8s.io/yaml v1.3.0 // indirect
+	sigs.k8s.io/yaml v1.4.0 // indirect
 )
