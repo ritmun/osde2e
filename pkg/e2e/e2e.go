@@ -609,14 +609,63 @@ func runTestsInPhase(
 
 	// Generate JUnit report once all tests have finished with customized settings
 	_ = ginkgo.ReportAfterSuite("OSDE2E", func(report ginkgo.Report) {
+		junitFile := filepath.Join(phaseDirectory, fmt.Sprintf("junit_%v.xml", suffix))
 		err := reporters.GenerateJUnitReportWithConfig(
 			report,
-			filepath.Join(phaseDirectory, fmt.Sprintf("junit_%v.xml", suffix)),
+			junitFile,
 			reporters.JunitReportConfig{OmitSpecLabels: true, OmitLeafNodeType: true},
 		)
 		if err != nil {
 			log.Printf("error creating junit report file %s", err.Error())
 		}
+		// Upload build log to s3 bucket. Non erroring step.
+		if config.Tests.LogBucket != "" {
+			buildLogPath := filepath.Join(reportDir, buildLog)
+			ginkgo.By("Uploading junit results to s3")
+			buildLog, builderr := os.ReadFile(buildLogPath)
+			junitFilePath := filepath.Join(phaseDirectory, fmt.Sprintf("junit_%v.xml", suffix))
+			junitFileData, juniterr := os.ReadFile(junitFilePath)
+			if builderr != nil || juniterr != nil {
+				ginkgo.GinkgoLogr.Info("couldn't read log files")
+			} else {
+				harnesses := viper.GetStringSlice(config.Tests.TestHarnesses)
+				if len(harnesses) == 1 {
+					testImagePath := harnesses[0]
+					testImageIndex := strings.LastIndex(testImagePath, "/")
+					imageTag := strings.Split(testImagePath[testImageIndex+1:], ":")
+					testImage := imageTag[0]
+					operatorName, found := strings.CutSuffix(testImage, "-test-harness")
+					var hiveCluster string
+					switch provider.Environment() {
+					case "stage":
+						hiveCluster = "hives02ue1"
+					case "int":
+						hiveCluster = "hivei01ue1"
+					default:
+						hiveCluster = "" // Or handle the default case as needed
+					}
+					if found && hiveCluster != "" && len(imageTag) == 2 {
+						commitSha := imageTag[1]
+						logDirectory := operatorName + "-" + hiveCluster + "-" + commitSha
+						results := map[string][]byte{
+							buildLogPath:  buildLog,
+							junitFilePath: junitFileData,
+						}
+						h, err := helper.NewOutsideGinkgo()
+						if err != nil || h == nil {
+							ginkgo.GinkgoLogr.Info("couldn't create helper object")
+						} else {
+
+							err = h.UploadResultsToS3(results, logDirectory)
+							if err != nil {
+								ginkgo.GinkgoLogr.Info("s3 upload error")
+							}
+						}
+					}
+				}
+			}
+		}
+
 	})
 
 	// https://github.com/konflux-ci/architecture/blob/cd41772b27bb89cd061e85cdaa7488afc4e29a2e/ADR/0030-tekton-results-naming-convention.md
