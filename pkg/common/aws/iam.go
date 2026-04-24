@@ -302,3 +302,424 @@ func (CcsAwsSession *ccsAwsSession) CleanupRoles(activeClusters map[string]bool,
 
 	return counters, nil
 }
+
+// deleteUserAccessKeys lists and deletes all access keys for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserAccessKeys(userName *string, dryrun bool) error {
+	accessKeys, err := CcsAwsSession.iam.ListAccessKeys(&iam.ListAccessKeysInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list access keys: %w", err)
+	}
+
+	var errs []string
+	for _, key := range accessKeys.AccessKeyMetadata {
+		if key.AccessKeyId == nil {
+			continue
+		}
+		keyID := aws.StringValue(key.AccessKeyId)
+		fmt.Printf("  Access key will be deleted: %s\n", keyID)
+		if !dryrun {
+			_, errDel := CcsAwsSession.iam.DeleteAccessKey(&iam.DeleteAccessKeyInput{
+				UserName:    userName,
+				AccessKeyId: key.AccessKeyId,
+			})
+			if errDel != nil {
+				errs = append(errs, fmt.Sprintf("key %s: %v", keyID, errDel))
+			} else {
+				fmt.Println("  Deleted access key")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete access keys: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserInlinePolicies lists and deletes all inline policies for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserInlinePolicies(userName *string, dryrun bool) error {
+	policies, err := CcsAwsSession.iam.ListUserPolicies(&iam.ListUserPoliciesInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list inline policies: %w", err)
+	}
+
+	var errs []string
+	for _, policy := range policies.PolicyNames {
+		policyName := aws.StringValue(policy)
+		fmt.Printf("  Inline policy will be deleted: %s\n", policyName)
+		if !dryrun {
+			_, errDel := CcsAwsSession.iam.DeleteUserPolicy(&iam.DeleteUserPolicyInput{
+				UserName:   userName,
+				PolicyName: policy,
+			})
+			if errDel != nil {
+				errs = append(errs, fmt.Sprintf("policy %s: %v", policyName, errDel))
+			} else {
+				fmt.Println("  Deleted inline policy")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete inline policies: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// detachUserManagedPolicies lists and detaches all managed policies from a user.
+func (CcsAwsSession *ccsAwsSession) detachUserManagedPolicies(userName *string, dryrun bool) error {
+	policies, err := CcsAwsSession.iam.ListAttachedUserPolicies(&iam.ListAttachedUserPoliciesInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list attached policies: %w", err)
+	}
+
+	var errs []string
+	for _, policy := range policies.AttachedPolicies {
+		if policy.PolicyArn == nil || policy.PolicyName == nil {
+			continue
+		}
+		policyName := aws.StringValue(policy.PolicyName)
+		fmt.Printf("  Managed policy will be detached: %s\n", policyName)
+		if !dryrun {
+			_, errDetach := CcsAwsSession.iam.DetachUserPolicy(&iam.DetachUserPolicyInput{
+				UserName:  userName,
+				PolicyArn: policy.PolicyArn,
+			})
+			if errDetach != nil {
+				errs = append(errs, fmt.Sprintf("policy %s: %v", policyName, errDetach))
+			} else {
+				time.Sleep(1 * time.Second)
+				fmt.Println("  Detached managed policy")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("detach managed policies: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// removeUserFromAllGroups lists and removes user from all groups.
+func (CcsAwsSession *ccsAwsSession) removeUserFromAllGroups(userName *string, dryrun bool) error {
+	groups, err := CcsAwsSession.iam.ListGroupsForUser(&iam.ListGroupsForUserInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list groups: %w", err)
+	}
+
+	var errs []string
+	for _, group := range groups.Groups {
+		if group.GroupName == nil {
+			continue
+		}
+		groupName := aws.StringValue(group.GroupName)
+		fmt.Printf("  Removing from group: %s\n", groupName)
+		if !dryrun {
+			_, errRm := CcsAwsSession.iam.RemoveUserFromGroup(&iam.RemoveUserFromGroupInput{
+				UserName:  userName,
+				GroupName: group.GroupName,
+			})
+			if errRm != nil {
+				errs = append(errs, fmt.Sprintf("group %s: %v", groupName, errRm))
+			} else {
+				fmt.Println("  Removed from group")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("remove from groups: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserMFADevices lists and deletes all MFA devices for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserMFADevices(userName *string, dryrun bool) error {
+	// Delete virtual MFA devices
+	virtualMFADevices, err := CcsAwsSession.iam.ListMFADevices(&iam.ListMFADevicesInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list MFA devices: %w", err)
+	}
+
+	var errs []string
+	for _, device := range virtualMFADevices.MFADevices {
+		if device.SerialNumber == nil {
+			continue
+		}
+		serialNumber := aws.StringValue(device.SerialNumber)
+		fmt.Printf("  MFA device will be deactivated: %s\n", serialNumber)
+		if !dryrun {
+			_, errDeactivate := CcsAwsSession.iam.DeactivateMFADevice(&iam.DeactivateMFADeviceInput{
+				UserName:     userName,
+				SerialNumber: device.SerialNumber,
+			})
+			if errDeactivate != nil {
+				errs = append(errs, fmt.Sprintf("deactivate %s: %v", serialNumber, errDeactivate))
+			} else {
+				fmt.Println("  Deactivated MFA device")
+				// Delete virtual MFA device if it's a virtual device (contains "mfa" in path)
+				if strings.Contains(serialNumber, "mfa") {
+					_, errDel := CcsAwsSession.iam.DeleteVirtualMFADevice(&iam.DeleteVirtualMFADeviceInput{
+						SerialNumber: device.SerialNumber,
+					})
+					if errDel != nil {
+						errs = append(errs, fmt.Sprintf("delete virtual MFA %s: %v", serialNumber, errDel))
+					} else {
+						fmt.Println("  Deleted virtual MFA device")
+					}
+				}
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete MFA devices: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserSigningCertificates lists and deletes all signing certificates for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserSigningCertificates(userName *string, dryrun bool) error {
+	certificates, err := CcsAwsSession.iam.ListSigningCertificates(&iam.ListSigningCertificatesInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list signing certificates: %w", err)
+	}
+
+	var errs []string
+	for _, cert := range certificates.Certificates {
+		if cert.CertificateId == nil {
+			continue
+		}
+		certID := aws.StringValue(cert.CertificateId)
+		fmt.Printf("  Signing certificate will be deleted: %s\n", certID)
+		if !dryrun {
+			_, errDel := CcsAwsSession.iam.DeleteSigningCertificate(&iam.DeleteSigningCertificateInput{
+				UserName:      userName,
+				CertificateId: cert.CertificateId,
+			})
+			if errDel != nil {
+				errs = append(errs, fmt.Sprintf("cert %s: %v", certID, errDel))
+			} else {
+				fmt.Println("  Deleted signing certificate")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete signing certificates: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserSSHPublicKeys lists and deletes all SSH public keys for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserSSHPublicKeys(userName *string, dryrun bool) error {
+	sshKeys, err := CcsAwsSession.iam.ListSSHPublicKeys(&iam.ListSSHPublicKeysInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list SSH public keys: %w", err)
+	}
+
+	var errs []string
+	for _, key := range sshKeys.SSHPublicKeys {
+		if key.SSHPublicKeyId == nil {
+			continue
+		}
+		keyID := aws.StringValue(key.SSHPublicKeyId)
+		fmt.Printf("  SSH public key will be deleted: %s\n", keyID)
+		if !dryrun {
+			_, errDel := CcsAwsSession.iam.DeleteSSHPublicKey(&iam.DeleteSSHPublicKeyInput{
+				UserName:       userName,
+				SSHPublicKeyId: key.SSHPublicKeyId,
+			})
+			if errDel != nil {
+				errs = append(errs, fmt.Sprintf("key %s: %v", keyID, errDel))
+			} else {
+				fmt.Println("  Deleted SSH public key")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete SSH public keys: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserServiceSpecificCredentials lists and deletes all service-specific credentials for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserServiceSpecificCredentials(userName *string, dryrun bool) error {
+	creds, err := CcsAwsSession.iam.ListServiceSpecificCredentials(&iam.ListServiceSpecificCredentialsInput{
+		UserName: userName,
+	})
+	if err != nil {
+		return fmt.Errorf("list service-specific credentials: %w", err)
+	}
+
+	var errs []string
+	for _, cred := range creds.ServiceSpecificCredentials {
+		if cred.ServiceSpecificCredentialId == nil {
+			continue
+		}
+		credID := aws.StringValue(cred.ServiceSpecificCredentialId)
+		fmt.Printf("  Service-specific credential will be deleted: %s\n", credID)
+		if !dryrun {
+			_, errDel := CcsAwsSession.iam.DeleteServiceSpecificCredential(&iam.DeleteServiceSpecificCredentialInput{
+				UserName:                    userName,
+				ServiceSpecificCredentialId: cred.ServiceSpecificCredentialId,
+			})
+			if errDel != nil {
+				errs = append(errs, fmt.Sprintf("credential %s: %v", credID, errDel))
+			} else {
+				fmt.Println("  Deleted service-specific credential")
+			}
+		}
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("delete service-specific credentials: %s", strings.Join(errs, "; "))
+	}
+	return nil
+}
+
+// deleteUserLoginProfile deletes the login profile (console password) for a user.
+func (CcsAwsSession *ccsAwsSession) deleteUserLoginProfile(userName *string, dryrun bool) error {
+	// First check if the login profile exists
+	_, err := CcsAwsSession.iam.GetLoginProfile(&iam.GetLoginProfileInput{
+		UserName: userName,
+	})
+	if err != nil {
+		// If NoSuchEntity error, login profile doesn't exist, which is fine
+		if strings.Contains(err.Error(), "NoSuchEntity") {
+			return nil
+		}
+		return fmt.Errorf("get login profile: %w", err)
+	}
+
+	fmt.Printf("  Login profile will be deleted\n")
+	if !dryrun {
+		_, errDel := CcsAwsSession.iam.DeleteLoginProfile(&iam.DeleteLoginProfileInput{
+			UserName: userName,
+		})
+		if errDel != nil {
+			return fmt.Errorf("delete login profile: %v", errDel)
+		}
+		fmt.Println("  Deleted login profile")
+	}
+	return nil
+}
+
+// cleanupIAMUser removes one IAM user with all dependencies.
+func (CcsAwsSession *ccsAwsSession) cleanupIAMUser(
+	user *iam.User,
+	userName string,
+	dryrun bool,
+	sendSummary bool,
+	errorBuilder *strings.Builder,
+	counters *Counters,
+) {
+	recordUserFailure := func(detail string) {
+		counters.Failed++
+		msg := fmt.Sprintf("user %s: %s\n", userName, detail)
+		fmt.Print(msg)
+		if sendSummary && errorBuilder.Len() < config.SlackMessageLength {
+			errorBuilder.WriteString(msg)
+		}
+	}
+
+	fmt.Printf("User will be deleted: %s\n", userName)
+
+	// Delete all dependencies in order
+	if err := CcsAwsSession.deleteUserAccessKeys(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserInlinePolicies(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.detachUserManagedPolicies(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.removeUserFromAllGroups(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserMFADevices(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserSigningCertificates(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserSSHPublicKeys(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserServiceSpecificCredentials(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+	if err := CcsAwsSession.deleteUserLoginProfile(user.UserName, dryrun); err != nil {
+		recordUserFailure(err.Error())
+		return
+	}
+
+	// Finally delete the user
+	if !dryrun {
+		_, err := CcsAwsSession.iam.DeleteUser(&iam.DeleteUserInput{
+			UserName: user.UserName,
+		})
+		if err != nil {
+			recordUserFailure(fmt.Sprintf("delete user: %v", err))
+			return
+		}
+		fmt.Printf("Deleted user %s\n", userName)
+		counters.Deleted++
+	}
+}
+
+// CleanupAllUsers deletes all IAM users except the excluded user (typically osdCcsAdmin).
+func (CcsAwsSession *ccsAwsSession) CleanupAllUsers(
+	excludeUser string,
+	dryrun bool,
+	sendSummary bool,
+	errorBuilder *strings.Builder,
+) (counters Counters, err error) {
+	err = CcsAwsSession.GetAWSSessions()
+	if err != nil {
+		return counters, err
+	}
+
+	fmt.Printf("Listing all IAM users (excluding: %s)...\n", excludeUser)
+
+	input := &iam.ListUsersInput{
+		MaxItems: aws.Int64(1000),
+	}
+	result, err := CcsAwsSession.iam.ListUsers(input)
+	if err != nil {
+		return counters, fmt.Errorf("list users: %w", err)
+	}
+
+	for _, user := range result.Users {
+		if user.UserName == nil {
+			continue
+		}
+		userName := aws.StringValue(user.UserName)
+
+		// Skip the excluded user
+		if userName == excludeUser {
+			fmt.Printf("Skipping excluded user: %s\n", userName)
+			continue
+		}
+
+		CcsAwsSession.cleanupIAMUser(user, userName, dryrun, sendSummary, errorBuilder, &counters)
+	}
+
+	return counters, nil
+}

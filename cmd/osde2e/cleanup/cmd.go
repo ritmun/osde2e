@@ -49,17 +49,20 @@ var args struct {
 	ec2             bool
 	vpc             bool
 	securityGroup   bool
+	deleteAllUsers  bool
+	excludeUser     string
 }
 
 type Message struct {
-	Summary   string `json:"summary"`
-	BuildFile string `json:"buildfile"`
-	S3Errors  string `json:"s3"`
-	IAMErrors string `json:"iam"`
-	IPErrors  string `json:"ip"`
-	EC2Errors string `json:"ec2"`
-	VPCErrors string `json:"vpc"`
-	SGErrors  string `json:"sg"`
+	Summary    string `json:"summary"`
+	BuildFile  string `json:"buildfile"`
+	S3Errors   string `json:"s3"`
+	IAMErrors  string `json:"iam"`
+	IPErrors   string `json:"ip"`
+	EC2Errors  string `json:"ec2"`
+	VPCErrors  string `json:"vpc"`
+	SGErrors   string `json:"sg"`
+	UserErrors string `json:"users"`
 }
 
 func init() {
@@ -124,7 +127,7 @@ func init() {
 	flags.BoolVar(
 		&args.dryRun,
 		"dry-run",
-		true,
+		false,
 		"Show dry run log of deleting iam resources",
 	)
 
@@ -154,6 +157,20 @@ func init() {
 		"security-group",
 		false,
 		"Cleanup leftover security groups in orphaned VPCs (workaround for OCPBUGS-74960)",
+	)
+
+	flags.BoolVar(
+		&args.deleteAllUsers,
+		"delete-all-users",
+		false,
+		"Delete all IAM users except the excluded user",
+	)
+
+	flags.StringVar(
+		&args.excludeUser,
+		"exclude-user",
+		"osdCcsAdmin",
+		"Username to exclude from deletion when using --delete-all-users",
 	)
 
 	_ = Cmd.RegisterFlagCompletionFunc("output-format", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
@@ -231,6 +248,7 @@ func run(_ context.Context) (msg Message, err error) {
 	var ec2ErrorBuilder strings.Builder
 	var vpcErrorBuilder strings.Builder
 	var sgErrorBuilder strings.Builder
+	var userErrorBuilder strings.Builder
 
 	defer func() {
 		buildFile := ""
@@ -243,14 +261,15 @@ func run(_ context.Context) (msg Message, err error) {
 		buildFile += "/" + viper.GetString(config.JobName) +
 			"/" + viper.GetString(config.JobID) + "/artifacts/test/build-log.txt"
 		msg = Message{
-			Summary:   summaryBuilder.String(),
-			BuildFile: "Build Logs: " + buildFile,
-			S3Errors:  "S3 Errors: " + s3ErrorBuilder.String(),
-			IAMErrors: "IAM Errors: " + iamErrorBuilder.String(),
-			IPErrors:  "IP Errors: " + ipErrorBuilder.String(),
-			EC2Errors: "EC2 Errors: " + ec2ErrorBuilder.String(),
-			VPCErrors: "VPC Errors: " + vpcErrorBuilder.String(),
-			SGErrors:  "SG Errors: " + sgErrorBuilder.String(),
+			Summary:    summaryBuilder.String(),
+			BuildFile:  "Build Logs: " + buildFile,
+			S3Errors:   "S3 Errors: " + s3ErrorBuilder.String(),
+			IAMErrors:  "IAM Errors: " + iamErrorBuilder.String(),
+			IPErrors:   "IP Errors: " + ipErrorBuilder.String(),
+			EC2Errors:  "EC2 Errors: " + ec2ErrorBuilder.String(),
+			VPCErrors:  "VPC Errors: " + vpcErrorBuilder.String(),
+			SGErrors:   "SG Errors: " + sgErrorBuilder.String(),
+			UserErrors: "User Errors: " + userErrorBuilder.String(),
 		}
 	}()
 
@@ -387,6 +406,14 @@ func run(_ context.Context) (msg Message, err error) {
 		summaryBuilder.WriteString("Elastic IPs: " + strconv.Itoa(eipCounters.Deleted) + "/" + strconv.Itoa(eipCounters.Failed) + "\n")
 		if err != nil {
 			return msg, fmt.Errorf("could not release ips: %s", err.Error())
+		}
+	}
+
+	if args.deleteAllUsers {
+		userCounters, err := aws.CcsAwsSession.CleanupAllUsers(args.excludeUser, args.dryRun, args.sendSummary, &userErrorBuilder)
+		summaryBuilder.WriteString("IAM Users: " + strconv.Itoa(userCounters.Deleted) + "/" + strconv.Itoa(userCounters.Failed) + "\n")
+		if err != nil {
+			return msg, fmt.Errorf("could not delete users: %s", err.Error())
 		}
 	}
 
